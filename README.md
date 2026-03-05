@@ -1,4 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/README.md b/README.md
 index af62858885b0017562c6618aa3ecb9cd41e575e6..175319a55f689e51f2ddaa1140b4738674b437a9 100644
 --- a/README.md
@@ -35,6 +34,3 @@ index af62858885b0017562c6618aa3ecb9cd41e575e6..175319a55f689e51f2ddaa1140b47386
 +- o backend imprime no terminal:
 +  - usuário informado
 +  - senha informada
- 
-EOF
-)
