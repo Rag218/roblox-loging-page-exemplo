@@ -1,0 +1,11 @@
+{
+  "name": "login-simulacao",
+  "version": "1.0.0",
+  "description": "Simulação de login genérico com backend local",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-server.js"
+  },
+  "license": "MIT"
+}
