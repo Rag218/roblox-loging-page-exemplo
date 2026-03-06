@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal de Login (Simulação)</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="login-panel" aria-labelledby="titulo-login">
+        <h1 id="titulo-login">Entrar</h1>
+
+        <form id="login-form" novalidate>
+          <label class="sr-only" for="usuario">Usuário ou e-mail</label>
+          <input id="usuario" name="usuario" type="text" placeholder="Usuário / E-mail" autocomplete="username" required />
+
+          <label class="sr-only" for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" placeholder="Senha" autocomplete="current-password" required />
+
+          <button id="entrar" type="submit">Entrar</button>
+        </form>
+
+        <a class="help-link" href="#" aria-disabled="true">Esqueceu sua senha ou usuário?</a>
+        <p id="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById('login-form');
+      const statusEl = document.getElementById('status');
+      const submitButton = document.getElementById('entrar');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const usuario = document.getElementById('usuario').value.trim();
+        const senha = document.getElementById('senha').value;
+
+        if (!usuario || !senha) {
+          statusEl.textContent = 'Preencha usuário e senha para continuar.';
+          statusEl.className = 'error';
+          return;
+        }
+
+        submitButton.disabled = true;
+        statusEl.textContent = 'Enviando...';
+        statusEl.className = '';
+
+        try {
+          const resposta = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usuario, senha })
+          });
+
+          const data = await resposta.json();
+
+          if (data.ok) {
+            statusEl.textContent = 'Simulação concluída: dados recebidos no terminal do servidor.';
+            statusEl.className = 'success';
+            form.reset();
+            return;
+          }
+
+          statusEl.textContent = `Erro: ${data.mensagem}`;
+          statusEl.className = 'error';
+        } catch {
+          statusEl.textContent = 'Falha de conexão com o servidor local.';
+          statusEl.className = 'error';
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
